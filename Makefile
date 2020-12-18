@@ -13,7 +13,7 @@ MAIN=./main.go
 all: main
 
 main:
-	$(GO) build -i -a -race -o $@ $(MAIN)
+	$(GO) build -o $@ $(MAIN)
 
 squeaky-clean: clean cache-clean docker-clean
 
@@ -84,7 +84,10 @@ format: fmt
 lint:
 	golint $(MAIN)
 
-check: fmt vet lint
+check: fmt vet fix lint
+
+fix:
+	$(GO) fix ./...
 
 debug: main
 	env LOG_LEVEL=debug ./main
